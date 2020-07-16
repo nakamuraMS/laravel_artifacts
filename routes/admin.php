@@ -11,10 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('guest:admin')->group(function (){
+    Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+    Route::post('login', 'Auth\LoginController@login')->name('login');
 });
 
-// Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth:admin')->group(function (){
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+});
