@@ -21,5 +21,6 @@ Route::middleware('auth:admin')->group(function (){
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
     // Wiki
-    Route::resource('wiki', 'WikiController');
+    Route::get('wiki', 'WikiController@index')->name('wiki.index');
+    Route::get('wiki/create', 'WikiController@create')->name('wiki.create');
 });
