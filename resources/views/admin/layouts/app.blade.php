@@ -218,6 +218,7 @@
   <script src="{{ asset('admin/vendor/chart.js/Chart.min.js') }}"></script>
   <script src="{{ asset('admin/vendor/datatables/jquery.dataTables.min.js') }}"></script>
   <script src="{{ asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('admin/vendor/ckeditor/ckeditor.js') }}"></script>
 
   @stack('scripts-foot')
 </body>

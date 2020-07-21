@@ -1,6 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('content')
+@include('admin._partical.message')
 <a href="{{ route('admin.wiki.create') }}" class="btn btn-info btn-icon-split">
   <span class="text">新規登録</span>
 </a>
@@ -9,16 +10,14 @@
     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Position</th>
-          <th>Office</th>
-          <th>Age</th>
-          <th>Start date</th>
-          <th>Salary</th>
+          <th>ID</th>
+          <th>タイトル</th>
+          <th>文章</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        {{-- <tr>
           <td>Tiger Nixon</td>
           <td>System Architect</td>
           <td>Edinburgh</td>
@@ -65,7 +64,7 @@
           <td>61</td>
           <td>2012/12/02</td>
           <td>$372,000</td>
-        </tr>
+        </tr> --}}
       </tbody>
     </table>
   </div>
@@ -74,8 +73,22 @@
 
 @push('scripts-foot')
 <script>
-  $(document).ready(function() {
-    $('#dataTable').DataTable();
+  // $(document).ready(function() {
+  //   $('#dataTable').DataTable();
+  // });
+
+  $(function () {
+    $('#dataTable').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: "{{ route('admin.wiki.index') }}",
+      columns: [
+        {data: 'id', name: 'id'},
+        {data: 'title', name: 'title'},
+        {data: 'body', name: 'body'},
+        {data: 'edit', name: 'edit', orderable: false, searchable: false},
+      ]
+    });
   });
 </script>
 @endpush
