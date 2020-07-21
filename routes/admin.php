@@ -19,4 +19,8 @@ Route::middleware('guest:admin')->group(function (){
 Route::middleware('auth:admin')->group(function (){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+    // Wiki
+    Route::get('wiki', 'WikiController@index')->name('wiki.index');
+    Route::get('wiki/create', 'WikiController@create')->name('wiki.create');
 });
