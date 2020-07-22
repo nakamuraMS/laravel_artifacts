@@ -24,7 +24,7 @@ class WikiController extends Controller
             ->addIndexColumn()
             ->addColumn('edit', function($row){
                 $url = route('admin.wiki.edit', ['wiki_id' => $row->id]);
-                $btn = '<a class="btn btn-success btn-icon-split" href="' . $url . '" role="button">編集</a>';
+                $btn = '<a class="btn btn-success btn-block" href="' . $url . '" role="button">編集</a>';
                 return $btn;
             })
             ->rawColumns(['edit'])
@@ -80,7 +80,8 @@ class WikiController extends Controller
      */
     public function edit($id)
     {
-        //
+        $wiki = Wiki::find($id);
+        return view('admin.wiki.edit', compact('wiki'));
     }
 
     /**
@@ -92,7 +93,25 @@ class WikiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $wiki         = Wiki::find($id);
+            $wiki->title  = $request->title;
+            $wiki->body   = $request->body;
+            $wiki->save();
+
+            DB::commit();
+            Session::flash('message', '更新しました');
+            Session::flash('alert-class', 'alert-success');
+        } catch (\Exception | \Throwable $e) {
+            DB::rollBack();
+            \Log::error($e);
+            Session::flash('error', 'エラーが発生しました');
+            Session::flash('alert-class', 'alert-danger');
+        } finally {
+            return redirect(route('admin.wiki.index'));
+        }
     }
 
     /**
