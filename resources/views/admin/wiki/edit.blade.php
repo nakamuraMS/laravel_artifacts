@@ -64,7 +64,10 @@
 
 @push('scripts-foot')
 <script>
-  CKEDITOR.replace('body');
+  tinymce.init({
+    selector: "#body",
+    language : 'ja'
+  });
 
   function dataDelete () {
     var flag = confirm("データを削除しますか？");

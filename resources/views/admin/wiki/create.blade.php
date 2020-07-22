@@ -58,6 +58,9 @@
 
 @push('scripts-foot')
 <script>
-  CKEDITOR.replace('body');
+  tinymce.init({
+    selector: "#body",
+    language : 'ja'
+  });
 </script>
 @endpush
