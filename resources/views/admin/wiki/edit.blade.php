@@ -33,7 +33,7 @@
     <div class="form-group row">
       <label for="disp" class="col-md-2 col-form-label">公開制御</label>
       <div class="col-md-7">
-        <select id="disp" class="form-control" name="disp">
+        <select id="disp" class="form-control @error('disp') is-invalid @enderror" name="disp">
           @foreach(\App\Models\Wiki::DISP as $k => $v)
             <option value="{{ $k }}" @if( $wiki->disp === $k) selected @endif>{{ $v }}</option>
           @endforeach

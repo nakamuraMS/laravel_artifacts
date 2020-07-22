@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateWikiRequest;
 use App\Models\Wiki;
 
 class WikiController extends Controller
@@ -50,10 +51,10 @@ class WikiController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreUpdateWikiRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateWikiRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -92,11 +93,11 @@ class WikiController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreUpdateWikiRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUpdateWikiRequest $request, $id)
     {
         try {
             DB::beginTransaction();
