@@ -17,7 +17,7 @@
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
   </head>
 
-  <body class="bg-gradient-info">
+  <body class="bg-gradient-primary">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-xl-10 col-lg-12 col-md-9">
