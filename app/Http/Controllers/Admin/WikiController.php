@@ -129,6 +129,22 @@ class WikiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $wiki         = Wiki::find($id);
+            $wiki->delete();
+
+            DB::commit();
+            Session::flash('message', '削除しました');
+            Session::flash('alert-class', 'alert-success');
+        } catch (\Exception | \Throwable $e) {
+            DB::rollBack();
+            \Log::error($e);
+            Session::flash('error', 'エラーが発生しました');
+            Session::flash('alert-class', 'alert-danger');
+        } finally {
+            return redirect(route('admin.wiki.index'));
+        }
     }
 }

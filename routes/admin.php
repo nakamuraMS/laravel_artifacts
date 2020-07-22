@@ -21,9 +21,10 @@ Route::middleware('auth:admin')->group(function (){
     Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
     // Wiki
-    Route::get('wiki'            , 'WikiController@index')->name('wiki.index');
-    Route::get('wiki/create'     , 'WikiController@create')->name('wiki.create');
-    Route::post('wiki'           , 'WikiController@store')->name('wiki.store');
-    Route::get('wiki/{wiki_id}'  , 'WikiController@edit')->name('wiki.edit');
-    Route::patch('wiki/{wiki_id}', 'WikiController@update')->name('wiki.update');
+    Route::get('wiki'                   , 'WikiController@index')->name('wiki.index');
+    Route::get('wiki/create'            , 'WikiController@create')->name('wiki.create');
+    Route::post('wiki'                  , 'WikiController@store')->name('wiki.store');
+    Route::get('wiki/{wiki_id}'         , 'WikiController@edit')->name('wiki.edit');
+    Route::patch('wiki/{wiki_id}'       , 'WikiController@update')->name('wiki.update');
+    Route::post('wiki/destroy/{wiki_id}' , 'WikiController@destroy')->name('wiki.destroy');
 });
