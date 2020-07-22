@@ -12,7 +12,7 @@
         <tr>
           <th>ID</th>
           <th>タイトル</th>
-          <!-- <th>文章</th> -->
+          <th>公開制御</th>
           <th></th>
         </tr>
       </thead>
@@ -33,7 +33,7 @@
       columns: [
         {data: 'id', name: 'id'},
         {data: 'title', name: 'title'},
-        // {data: 'body', name: 'body'},
+        {data: 'disp', name: 'disp'},
         {data: 'edit', name: 'edit', orderable: false, searchable: false},
       ]
     });

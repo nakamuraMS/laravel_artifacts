@@ -27,6 +27,10 @@ class WikiController extends Controller
                 $btn = '<a class="btn btn-success btn-block" href="' . $url . '" role="button">編集</a>';
                 return $btn;
             })
+            ->editColumn('disp', function($row){
+                $disp = ($row->disp === \App\Models\Wiki::DISP_ON ? '公開' : ($row->disp === \App\Models\Wiki::DISP_OFF ? '非公開' : ''));
+                return $disp;
+            })
             ->rawColumns(['edit'])
             ->make(true);
         }
@@ -57,6 +61,7 @@ class WikiController extends Controller
             $wiki         = new Wiki();
             $wiki->title  = $request->title;
             $wiki->body   = $request->body;
+            $wiki->disp   = $request->disp;
             $wiki->save();
 
             DB::commit();
@@ -99,6 +104,7 @@ class WikiController extends Controller
             $wiki         = Wiki::find($id);
             $wiki->title  = $request->title;
             $wiki->body   = $request->body;
+            $wiki->disp   = $request->disp;
             $wiki->save();
 
             DB::commit();
