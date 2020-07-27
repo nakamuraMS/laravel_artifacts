@@ -7,8 +7,8 @@
     @csrf
     <div class="form-group row">
       <label for="title" class="col-md-2 col-form-label">タイトル</label>
-      <div class="col-md-7">
-        <input id="title" type="title" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}" required>
+      <div class="col-md-8">
+        <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ old('title') }}">
         @error('title')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
@@ -19,8 +19,8 @@
 
     <div class="form-group row">
       <label for="body" class="col-md-2 col-form-label">文章</label>
-      <div class="col-md-7">
-        <textarea id="body" type="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ old('body') }}</textarea>
+      <div class="col-md-8">
+        <textarea id="body" class="form-control @error('body') is-invalid @enderror" name="body">{{ old('body') }}</textarea>
         @error('body')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
@@ -31,7 +31,7 @@
 
     <div class="form-group row">
       <label for="disp" class="col-md-2 col-form-label">公開制御</label>
-      <div class="col-md-7">
+      <div class="col-md-8">
         <select id="disp" class="form-control @error('disp') is-invalid @enderror" name="disp">
           @foreach(\App\Models\Wiki::DISP as $k => $v)
             <option value="{{ $k }}" @if( \App\Models\Wiki::DISP_ON === $k) selected @endif>{{ $v }}</option>
@@ -57,10 +57,5 @@
 @endsection
 
 @push('scripts-foot')
-<script>
-  tinymce.init({
-    selector: "#body",
-    language : 'ja'
-  });
-</script>
+@include('admin._partical.tinymce')
 @endpush

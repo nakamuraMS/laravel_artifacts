@@ -8,8 +8,8 @@
     @csrf
     <div class="form-group row">
       <label for="title" class="col-md-2 col-form-label">タイトル</label>
-      <div class="col-md-7">
-        <input id="title" type="title" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $wiki->title }}" required>
+      <div class="col-md-8">
+        <input id="title" type="text" class="form-control @error('title') is-invalid @enderror" name="title" value="{{ $wiki->title }}">
         @error('title')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
@@ -20,8 +20,8 @@
 
     <div class="form-group row">
       <label for="body" class="col-md-2 col-form-label">文章</label>
-      <div class="col-md-7">
-        <textarea id="body" type="body" class="form-control @error('body') is-invalid @enderror" name="body" required>{{ $wiki->body }}</textarea>
+      <div class="col-md-8">
+        <textarea id="body" class="form-control @error('body') is-invalid @enderror" name="body">{{ $wiki->body }}</textarea>
         @error('body')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
@@ -32,7 +32,7 @@
 
     <div class="form-group row">
       <label for="disp" class="col-md-2 col-form-label">公開制御</label>
-      <div class="col-md-7">
+      <div class="col-md-8">
         <select id="disp" class="form-control @error('disp') is-invalid @enderror" name="disp">
           @foreach(\App\Models\Wiki::DISP as $k => $v)
             <option value="{{ $k }}" @if( $wiki->disp === $k) selected @endif>{{ $v }}</option>
@@ -52,7 +52,7 @@
     <div class="col-md-2">
       <button class="btn btn-primary btn-block" type="submit" form="EditForm">更新</button>
     </div>
-    <div class="col-md-2 offset-md-5">
+    <div class="col-md-2 offset-md-6">
       <form action="{{ route('admin.wiki.destroy', ['wiki_id' => $wiki->id])}}" method="post">
         @csrf
         <button class="btn btn-danger btn-block" type="submit" onclick="return dataDelete()">削除</button>
@@ -63,12 +63,8 @@
 @endsection
 
 @push('scripts-foot')
+@include('admin._partical.tinymce')
 <script>
-  tinymce.init({
-    selector: "#body",
-    language : 'ja'
-  });
-
   function dataDelete () {
     var flag = confirm("データを削除しますか？");
     /* trueなら送信、falseなら送信しない */
