@@ -25,11 +25,18 @@ class StoreUpdateWikiRequest extends FormRequest
     public function rules()
     {
         $disp = implode(',', array_keys(Wiki::DISP));
-        return [
+        $rules = [
             'title'       => 'required|max:70',
             'body'        => 'required',
             'disp'        => 'required|in:' . $disp,
         ];
+
+        $request = $this->all();
+        if (isset($request['thumbnail'])) {
+            $rules += ['thumbnail'  => ['image']];
+        }
+
+        return $rules;
     }
 
     /**
@@ -41,6 +48,7 @@ class StoreUpdateWikiRequest extends FormRequest
             'title'       => 'タイトル',
             'body'        => '文章',
             'disp'        => '公開制御',
+            'thumbnail'   => 'サムネイル',
         ];
     }
 
@@ -52,6 +60,7 @@ class StoreUpdateWikiRequest extends FormRequest
             'body.required'           => ':attributeを入力してください。',
             'disp.required'           => ':attributeを指定してください。',
             'disp.in'                 => ':attributeに不正な値を指定しています。',
+            'thumbnail.image'         => ':attributeには画像を指定してください。',
         ];
     }
 }

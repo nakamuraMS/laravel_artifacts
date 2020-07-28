@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="card-body">
-  <form method="POST" action="{{ route('admin.wiki.store') }}">
+  <form method="POST" action="{{ route('admin.wiki.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="form-group row">
       <label for="title" class="col-md-2 col-form-label">タイトル</label>
@@ -38,6 +38,18 @@
           @endforeach
         </select>
         @error('disp')
+          <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+          </span>
+        @enderror
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="file" class="col-md-2 col-form-label">サムネイル</label>
+      <div class="col-md-8">
+        <input id="file" type="file" class="form-control-file @error('thumbnail') is-invalid @enderror" name="thumbnail">
+        @error('thumbnail')
           <span class="invalid-feedback" role="alert">
             <strong>{{ $message }}</strong>
           </span>

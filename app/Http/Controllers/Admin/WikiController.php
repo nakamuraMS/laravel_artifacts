@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateWikiRequest;
@@ -65,6 +66,15 @@ class WikiController extends Controller
             $wiki->disp   = $request->disp;
             $wiki->save();
 
+            // 画像アップロード処理
+            if ($request->file()) {
+                $extension = $request->file('thumbnail')->getClientOriginalExtension();
+                $filename = $wiki->id . '.' . $extension;
+                $request->file('thumbnail')->storeAs(Wiki::UPLOAD_PASS, $filename);
+                $wiki->filepass = Wiki::STORAGE_PASS . $filename;
+                $wiki->save();
+            }
+
             DB::commit();
             Session::flash('message', '新規登録しました');
             Session::flash('alert-class', 'alert-success');
@@ -108,6 +118,15 @@ class WikiController extends Controller
             $wiki->disp   = $request->disp;
             $wiki->save();
 
+            // 画像アップロード処理
+            if ($request->file()) {
+                $extension = $request->file('thumbnail')->getClientOriginalExtension();
+                $filename = $wiki->id . '.' . $extension;
+                $request->file('thumbnail')->storeAs(Wiki::UPLOAD_PASS, $filename);
+                $wiki->filepass = Wiki::STORAGE_PASS . $filename;
+                $wiki->save();
+            }
+
             DB::commit();
             Session::flash('message', '更新しました');
             Session::flash('alert-class', 'alert-success');
@@ -132,7 +151,8 @@ class WikiController extends Controller
         try {
             DB::beginTransaction();
 
-            $wiki         = Wiki::find($id);
+            $wiki = Wiki::find($id);
+            unlink($wiki->filepass);
             $wiki->delete();
 
             DB::commit();
