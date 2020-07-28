@@ -17,6 +17,8 @@ class CreateWikisTable extends Migration
             $table->bigIncrements('id');
             $table->string('title');
             $table->binary('body');
+            $table->tinyInteger('disp')->default(1);
+            $table->string('filepass')->nullable();
             $table->timestamps();
         });
     }
