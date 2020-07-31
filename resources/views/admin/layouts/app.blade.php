@@ -48,13 +48,20 @@
       </li>
 
       <!-- Divider -->
-      <hr class="sidebar-divider">
+      <hr class="sidebar-divider my-0">
+
+      <!-- Nav Item -->
+      {{-- <li class="nav-item active">
+        <a class="nav-link" href="{{ route('admin.home') }}">
+          <i class="far fa-calendar-alt"></i>
+          <span>Schedule</span></a>
+      </li> --}}
 
       <!-- Nav Item -->
       <li class="nav-item active">
         <a class="nav-link" href="{{ route('admin.home') }}">
-          <i class="far fa-calendar-alt"></i>
-          <span>Schedule</span></a>
+          <i class="far fa-envelope"></i>
+          <span>Remind Mail</span></a>
       </li>
 
       <!-- Divider -->
