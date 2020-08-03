@@ -59,7 +59,7 @@
 
       <!-- Nav Item -->
       <li class="nav-item active">
-        <a class="nav-link" href="{{ route('admin.home') }}">
+        <a class="nav-link" href="{{ route('admin.remind_mail.index') }}">
           <i class="far fa-envelope"></i>
           <span>Remind Mail</span></a>
       </li>

@@ -15,8 +15,9 @@ class CreateRemindMailsTable extends Migration
     {
         Schema::create('remind_mails', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamp('datetime')->nullable()->comment('送信日時');
+            $table->string('title');
             $table->binary('body')->nullable()->comment('メール本文');
+            $table->timestamp('datetime')->nullable()->comment('送信日時');
             $table->timestamps();
         });
     }
