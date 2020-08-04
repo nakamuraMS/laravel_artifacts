@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateRemindMailRequest;
 use App\Models\RemindMail;
 
 class RemindMailController extends Controller
@@ -47,10 +48,10 @@ class RemindMailController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreUpdateRemindMailRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateRemindMailRequest $request)
     {
         try {
             DB::beginTransaction();
@@ -58,7 +59,7 @@ class RemindMailController extends Controller
             $remind_mail            = new RemindMail();
             $remind_mail->title     = $request->title;
             $remind_mail->body      = $request->body;
-            $remind_mail->datetime  = $this->dateFormat($request);;
+            $remind_mail->datetime  = $this->dateFormat($request);
             $remind_mail->save();
 
             DB::commit();
@@ -80,11 +81,11 @@ class RemindMailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function edit($id)
-    // {
-    //     $remind_mail = RemindMail::find($id);
-    //     return view('admin.remind_mail.edit', compact('remind_mail'));
-    // }
+    public function edit($id)
+    {
+        $remind_mail = RemindMail::find($id);
+        return view('admin.remind_mail.edit', compact('remind_mail'));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -93,29 +94,29 @@ class RemindMailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(StoreUpdateRemindMailRequest $request, $id)
-    // {
-    //     try {
-    //         DB::beginTransaction();
+    public function update(StoreUpdateRemindMailRequest $request, $id)
+    {
+        try {
+            DB::beginTransaction();
 
-    //         $remind_mail         = RemindMail::find($id);
-    //         $remind_mail->title  = $request->title;
-    //         $remind_mail->body   = $request->body;
-    //         $remind_mail->disp   = $request->disp;
-    //         $remind_mail->save();
+            $remind_mail            = RemindMail::find($id);
+            $remind_mail->title     = $request->title;
+            $remind_mail->body      = $request->body;
+            $remind_mail->datetime  = $this->dateFormat($request);
+            $remind_mail->save();
 
-    //         DB::commit();
-    //         Session::flash('message', '更新しました');
-    //         Session::flash('alert-class', 'alert-success');
-    //     } catch (\Exception | \Throwable $e) {
-    //         DB::rollBack();
-    //         \Log::error($e);
-    //         Session::flash('error', 'エラーが発生しました');
-    //         Session::flash('alert-class', 'alert-danger');
-    //     } finally {
-    //         return redirect(route('admin.remind_mail.index'));
-    //     }
-    // }
+            DB::commit();
+            Session::flash('message', '更新しました');
+            Session::flash('alert-class', 'alert-success');
+        } catch (\Exception | \Throwable $e) {
+            DB::rollBack();
+            \Log::error($e);
+            Session::flash('error', 'エラーが発生しました');
+            Session::flash('alert-class', 'alert-danger');
+        } finally {
+            return redirect(route('admin.remind_mail.index'));
+        }
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -123,27 +124,26 @@ class RemindMailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy($id)
-    // {
-    //     try {
-    //         DB::beginTransaction();
+    public function destroy($id)
+    {
+        try {
+            DB::beginTransaction();
 
-    //         $remind_mail = RemindMail::find($id);
-    //         unlink($remind_mail->filepass);
-    //         $remind_mail->delete();
+            $remind_mail = RemindMail::find($id);
+            $remind_mail->delete();
 
-    //         DB::commit();
-    //         Session::flash('message', '削除しました');
-    //         Session::flash('alert-class', 'alert-success');
-    //     } catch (\Exception | \Throwable $e) {
-    //         DB::rollBack();
-    //         \Log::error($e);
-    //         Session::flash('error', 'エラーが発生しました');
-    //         Session::flash('alert-class', 'alert-danger');
-    //     } finally {
-    //         return redirect(route('admin.remind_mail.index'));
-    //     }
-    // }
+            DB::commit();
+            Session::flash('message', '削除しました');
+            Session::flash('alert-class', 'alert-success');
+        } catch (\Exception | \Throwable $e) {
+            DB::rollBack();
+            \Log::error($e);
+            Session::flash('error', 'エラーが発生しました');
+            Session::flash('alert-class', 'alert-danger');
+        } finally {
+            return redirect(route('admin.remind_mail.index'));
+        }
+    }
 
     /**
      * 公開日時を整形して返す
@@ -153,10 +153,13 @@ class RemindMailController extends Controller
      */
     public function dateFormat($request)
     {
-        $releaseDateTime = Carbon::parse(
-            $request->date_year.'-'.$request->date_month.'-'.$request->date_day.' '.$request->date_hour.':'.$request->date_minute
-        );
-
-        return $releaseDateTime;
+        if (isset($request->date_year)) {
+            $releaseDateTime = Carbon::parse(
+                $request->date_year.'-'.$request->date_month.'-'.$request->date_day.' '.$request->date_hour.':'.$request->date_minute
+            );
+            return $releaseDateTime;
+        } else {
+            return null;
+        }
     }
 }
